@@ -1,0 +1,30 @@
+@import '../styles/_variables.scss';
+
+.my-header {
+  align-items: center;
+  background-color: white;
+  border-bottom: 1px solid $alto;
+  height: 5vh;
+  display: flex;
+  padding: 2vh 5vw;
+
+  .header-left {
+    flex: 9;
+  }
+
+  .header-right {
+    align-items: center;
+    flex: 1;
+    justify-content: space-between;
+    display: flex;
+
+    h3 {
+      color: $havelock-blue;
+    }
+
+    > * {
+      margin-left: 1vw;
+      text-align: right;
+    }
+  }
+}
