@@ -6,7 +6,7 @@
   border-bottom: 1px solid $alto;
   height: 5vh;
   display: flex;
-  padding: 2vh 5vw;
+  padding: 1vh 5vw;
 
   .header-left {
     flex: 9;
@@ -27,4 +27,12 @@
       text-align: right;
     }
   }
+
+  .my-button {
+    cursor: pointer;
+  }
+}
+
+.page-container {
+  padding: 2vh 5vw;
 }

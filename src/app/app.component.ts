@@ -1,7 +1,8 @@
 import { Component, OnInit} from '@angular/core';
+import { Router } from '@angular/router';
 
 import { User } from '../models/user';
-import { UserService, EmitterService } from '../services/index';
+import { AuthenticationService, UserService, EmitterService } from '../services/index';
 
 
 @Component({
@@ -14,8 +15,10 @@ export class AppComponent {
   users: User[] = [];
   subscription;
 
-  constructor(private userService: UserService,
-              private emitterService: EmitterService) {
+  constructor(private authenticationService: AuthenticationService,
+              private userService: UserService,
+              private emitterService: EmitterService,
+              private router: Router) {
     this.subscription = this.emitterService.subscribe(msg => {
       console.log(msg);
       if (msg === 'user:loggedIn') {
@@ -45,5 +48,11 @@ export class AppComponent {
 
   setCurrentUser() {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  }
+
+  logOut(): void {
+    this.authenticationService.logout();
+    this.setCurrentUser();
+    this.router.navigate(['/login']);
   }
 }

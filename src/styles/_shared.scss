@@ -1,0 +1,28 @@
+input,
+textarea {
+  border: 1px solid rgba(68, 135, 219, .4);
+  border-radius: 5px;
+  color: #4487db;
+  // height: 6vh;
+  padding: 1vh 3vw;
+}
+
+input:focus {
+  outline: none !important;
+}
+
+button {
+  background-color: #4487db;
+  border: none;
+  border-radius: 10px;
+  color: white;
+}
+
+button:active {
+  background-color: white;
+  color: #4487db;
+}
+
+button:disabled {
+  background-color: #d9d9d9;
+}

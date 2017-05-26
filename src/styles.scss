@@ -4,3 +4,27 @@ body {
   font-family: 'Karla', sans-serif;
   margin: 0 !important;
 }
+
+.my-overlay {
+  background-color: black;
+  opacity: .2;
+  z-index: 2;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+}
+
+.cdk-overlay-pane {
+  z-index: 3;
+  background-color: white;
+  position: absolute !important;
+  top: 30vh;
+  left: 30vw;
+  width: 40vw;
+}
+
+.cdk-overlay-container {
+  position: absolute;
+  top: 0;
+}

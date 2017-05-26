@@ -1,0 +1,9 @@
+<ul class="department-list">
+  <li *ngFor="let department of departments"
+      [routerLink]="['/']">
+    {{department.name}}
+ </li>
+</ul>
+<button (click)="addNewDepartment()">
+  +
+</button>

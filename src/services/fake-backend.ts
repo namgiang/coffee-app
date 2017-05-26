@@ -2,8 +2,48 @@ import { Http, BaseRequestOptions, Response, ResponseOptions, RequestMethod, XHR
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
 export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOptions, realBackend: XHRBackend) {
+    const defaultFlavors: any[] = [
+        {
+            id: 1,
+            name: 'Coffee Type 1',
+            type: 'coffee',
+            profile: 'very bitter',
+            departmentId: 1
+        },
+        {
+            id: 2,
+            name: 'Coffee Type 2',
+            type: 'coffee',
+            profile: 'great smell',
+            departmentId: 1
+        },
+        {
+            id: 3,
+            name: 'Green Tea',
+            type: 'tea',
+            profile: 'lots of anti-oxidant',
+            departmentId: 1
+        },
+        {
+            id: 4,
+            name: 'Sencha Tea',
+            type: 'tea',
+            profile: 'Japanese green tea',
+            departmentId: 1
+        },
+    ];
+
+    const defaultDepartments = [
+      {
+          id: 1,
+          name: 'IT Department'
+      }
+    ]
+
     // array in local storage for registered users
     let users: any[] = JSON.parse(localStorage.getItem('users')) || [];
+    let departments: any[] = JSON.parse(localStorage.getItem('departments')) || defaultDepartments;
+    let flavors: any[] = JSON.parse(localStorage.getItem('flavors')) || defaultFlavors;
 
     // configure fake backend
     backend.connections.subscribe((connection: MockConnection) => {
@@ -118,6 +158,11 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
                     connection.mockRespond(new Response(new ResponseOptions({ status: 401 })));
                 }
 
+                return;
+            }
+
+            if (connection.request.url.endsWith('/api/departments') && connection.request.method === RequestMethod.Get) {
+                connection.mockRespond(new Response(new ResponseOptions({ status: 200, body: departments })));
                 return;
             }
 

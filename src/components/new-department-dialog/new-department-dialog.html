@@ -1,0 +1,11 @@
+<h2 md-dialog-title>New department</h2>
+<div md-dialog-content>
+  <input #dictionaryName
+         placeholder="Department name" />
+</div>
+<div md-dialog-actions>
+  <button (click)="dialogRef.close(dictionaryName.value)"
+          [disabled]="dictionaryName.value === ''">
+    OK
+  </button>
+</div>

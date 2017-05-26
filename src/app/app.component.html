@@ -9,10 +9,13 @@
 
     <div class="header-right">
       <h3 *ngIf="currentUser" >{{currentUser.username}}</h3>
-      <p><a [routerLink]="['/login']">{{ currentUser ? 'Logout' : 'Login' }}</a></p>
+      <p *ngIf="!currentUser" [routerLink]="['/login']" class="my-button">Login</p>
+      <p *ngIf="currentUser" (click)="logOut()" class="my-button">Logout</p>
     </div>
   </header>
 
-  <router-outlet></router-outlet>
+  <div class="page-container">
+    <router-outlet></router-outlet>
+  </div>
 
 </div>

@@ -1,0 +1,16 @@
+@import '../../styles/_shared.scss';
+@import '../../styles/_variables.scss';
+
+:host {
+  text-align: center;
+
+  h2 {
+    color: $havelock-blue;
+  }
+
+  button {
+    margin: auto;
+    padding: 1vh 3vw;
+  }
+
+}
