@@ -11,7 +11,7 @@ import { fakeBackendProvider } from '../services/index';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { BaseRequestOptions } from '@angular/http';
 
-import { AlertService, AuthGuard, AuthenticationService, UserService, EmitterService, DepartmentService } from '../services/index';
+import { AuthGuard, AuthenticationService, UserService, EmitterService, DepartmentService } from '../services/index';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +20,7 @@ import { DepartmentsPage } from '../pages/departments/departments';
 import { SignUpPage } from '../pages/sign-up/sign-up';
 import { AlertComponent } from '../components/alert/alert';
 import { NewDepartmentDialog } from '../components/new-department-dialog/new-department-dialog';
+import { ConfirmDialog } from '../components/confirm-dialog/confirm-dialog';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { NewDepartmentDialog } from '../components/new-department-dialog/new-dep
     LoginPage,
     SignUpPage,
     AlertComponent,
-    NewDepartmentDialog
+    NewDepartmentDialog,
+    ConfirmDialog
   ],
   imports: [
     BrowserModule,
@@ -39,10 +41,11 @@ import { NewDepartmentDialog } from '../components/new-department-dialog/new-dep
     MaterialModule
   ],
   entryComponents: [
-    NewDepartmentDialog
+    NewDepartmentDialog,
+    AlertComponent,
+    ConfirmDialog
   ],
   providers: [
-    AlertService,
     AuthGuard,
     AuthenticationService,
     UserService,

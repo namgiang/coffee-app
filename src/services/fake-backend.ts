@@ -161,8 +161,49 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
                 return;
             }
 
+            // get all departments
             if (connection.request.url.endsWith('/api/departments') && connection.request.method === RequestMethod.Get) {
                 connection.mockRespond(new Response(new ResponseOptions({ status: 200, body: departments })));
+                return;
+            }
+
+            // create new departments
+            if (connection.request.url.endsWith('/api/departments') && connection.request.method === RequestMethod.Post) {
+                let newDepartment = JSON.parse(connection.request.getBody());
+
+                // validation
+                let duplicateDepartment = departments.filter(department => { return department.name === newDepartment.name; }).length;
+                if (duplicateDepartment) {
+                    return connection.mockError(new Error('Department "' + newDepartment.name + '" is already created'));
+                }
+
+                // save new department
+                newDepartment.id = departments.length + 1;
+                departments.push(newDepartment);
+                localStorage.setItem('departments', JSON.stringify(departments));
+
+                // respond 200 OK
+                connection.mockRespond(new Response(new ResponseOptions({ status: 200 })));
+
+                return;
+            }
+
+            // delete a department
+            if (connection.request.url.match(/\/api\/departments\/\d+$/) && connection.request.method === RequestMethod.Delete) {
+                let urlParts = connection.request.url.split('/');
+                let id = parseInt(urlParts[urlParts.length - 1]);
+                for (let i = 0; i < departments.length; i++) {
+                    let department = departments[i];
+                    if (department.id === id) {
+                        // delete department
+                        departments.splice(i, 1);
+                        localStorage.setItem('departments', JSON.stringify(departments));
+                        break;
+                    }
+                }
+
+                connection.mockRespond(new Response(new ResponseOptions({ status: 200 })));
+
                 return;
             }
 

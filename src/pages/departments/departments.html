@@ -1,9 +1,11 @@
 <ul class="department-list">
   <li *ngFor="let department of departments"
       [routerLink]="['/']">
-    {{department.name}}
- </li>
+    <span>{{department.name}}</span>
+    <button class="delete-button"
+           (click)="openConfirmDialog(department); $event.stopPropagation()">x</button>
+  </li>
 </ul>
-<button (click)="addNewDepartment()">
+<button class="add-button" (click)="addNewDepartment()">
   +
 </button>

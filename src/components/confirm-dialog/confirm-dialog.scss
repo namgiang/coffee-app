@@ -1,0 +1,28 @@
+@import '../../styles/variables.scss';
+@import '../../styles/shared.scss';
+
+.alert {
+  text-align: center;
+}
+
+.buttons {
+  margin: auto;
+  text-align: center;
+
+  button {
+    color: white;
+    cursor: pointer;
+    padding: 1vh 3vw;
+    margin: auto;
+  }
+
+  .cancel-button {
+    background-color: gray;
+  }
+
+  .ok-button {
+    background-color: $havelock-blue;
+  }
+}
+
+

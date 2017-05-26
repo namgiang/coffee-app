@@ -3,12 +3,12 @@ import { Component, Inject } from '@angular/core';
 import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
  
 @Component({
-  selector: 'alert-component',
-  templateUrl: './alert.html',
-  styleUrls: ['./alert.scss']
+  selector: 'confirm-dialog',
+  templateUrl: './confirm-dialog.html',
+  styleUrls: ['./confirm-dialog.scss']
 })
  
-export class AlertComponent {
-  constructor(public dialogRef: MdDialogRef<AlertComponent>,
+export class ConfirmDialog {
+  constructor(public dialogRef: MdDialogRef<ConfirmDialog>,
               @Inject(MD_DIALOG_DATA) public data: any) {}
 }

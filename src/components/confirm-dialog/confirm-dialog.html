@@ -1,0 +1,9 @@
+<div *ngIf="data"
+     md-dialog-content
+     [ngClass]="{ 'alert': data }">
+  {{ data.text }}
+</div>
+<div md-dialog-actions class="buttons">
+  <button class="cancel-button" (click)="dialogRef.close('No')">No</button>
+  <button class="ok-button" (click)="dialogRef.close('ok')">Yes</button>
+</div>

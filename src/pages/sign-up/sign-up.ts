@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { MdDialog } from '@angular/material';
 
-import { AlertService, UserService } from '../../services/index';
+import { UserService } from '../../services/index';
+import { AlertComponent } from '../../components/alert/alert';
 
 @Component({
   selector: 'sign-up-page',
@@ -16,20 +18,30 @@ export class SignUpPage {
     constructor(
         private router: Router,
         private userService: UserService,
-        private alertService: AlertService) { }
+        private dialog: MdDialog) { }
 
     register() {
         this.loading = true;
         this.userService.create(this.model)
             .subscribe(
                 data => {
-                    // set success message and pass true paramater to persist the message after redirecting to the login page
-                    this.alertService.success('Registration successful', true);
+                    // this.alertService.success('Registration successful', true);
+                    let message = { text: "Registration successful!", type: 'success'};
+                    this.openAlert(message);
                     this.router.navigate(['/login']);
                 },
                 error => {
-                    this.alertService.error(error);
+                    let message = { text: "Registration failed. Please try again!", type: 'error'};
+                    this.openAlert(message);
                     this.loading = false;
                 });
     }
+
+    openAlert(message): void {
+        let dialogRef = this.dialog.open(AlertComponent, {
+          hasBackdrop: true,
+          backdropClass: 'my-overlay',
+          data: message
+        });
+  }
 }
