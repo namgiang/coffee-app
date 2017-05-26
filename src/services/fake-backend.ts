@@ -207,6 +207,18 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
                 return;
             }
 
+            // get flavors by id
+            if (connection.request.url.match(/\/api\/flavors\/\d+$/) && connection.request.method === RequestMethod.Get) {
+                let urlParts = connection.request.url.split('/');
+                let id = parseInt(urlParts[urlParts.length - 1]);
+                let matchedFlavors = flavors.filter(flavor => { return flavor.departmentId === id; });
+
+                // respond 200 OK with user
+                connection.mockRespond(new Response(new ResponseOptions({ status: 200, body: matchedFlavors })));
+
+                return;
+            }
+
             // pass through any requests not handled above
             let realHttp = new Http(realBackend, options);
             let requestOptions = new RequestOptions({

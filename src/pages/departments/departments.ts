@@ -29,7 +29,7 @@ export class DepartmentsPage implements OnInit {
     this.departmentService.getAll().subscribe(departments => { this.departments = departments; });
   }
 
-  addNewDepartment() {
+  addDepartment() {
     let dialogRef = this.dialog.open(NewDepartmentDialog, {
       hasBackdrop: true,
       backdropClass: 'my-overlay'

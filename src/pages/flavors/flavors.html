@@ -1,0 +1,9 @@
+<ul class="flavors-list">
+  <li *ngFor="let flavor of flavors"
+      [routerLink]="['/']">
+    {{flavor.name}}
+  </li>
+</ul>
+<button class="add-button" (click)="addFlavor()">
+  +
+</button>

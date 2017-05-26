@@ -25,7 +25,6 @@ export class SignUpPage {
         this.userService.create(this.model)
             .subscribe(
                 data => {
-                    // this.alertService.success('Registration successful', true);
                     let message = { text: "Registration successful!", type: 'success'};
                     this.openAlert(message);
                     this.router.navigate(['/login']);

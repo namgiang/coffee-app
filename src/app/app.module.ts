@@ -11,12 +11,13 @@ import { fakeBackendProvider } from '../services/index';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { BaseRequestOptions } from '@angular/http';
 
-import { AuthGuard, AuthenticationService, UserService, EmitterService, DepartmentService } from '../services/index';
+import { AuthGuard, AuthenticationService, UserService, EmitterService, DepartmentService, FlavorService } from '../services/index';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginPage } from '../pages/login/login';
 import { DepartmentsPage } from '../pages/departments/departments';
+import { FlavorsPage } from '../pages/flavors/flavors';
 import { SignUpPage } from '../pages/sign-up/sign-up';
 import { AlertComponent } from '../components/alert/alert';
 import { NewDepartmentDialog } from '../components/new-department-dialog/new-department-dialog';
@@ -28,6 +29,7 @@ import { ConfirmDialog } from '../components/confirm-dialog/confirm-dialog';
     DepartmentsPage,
     LoginPage,
     SignUpPage,
+    FlavorsPage,
     AlertComponent,
     NewDepartmentDialog,
     ConfirmDialog
@@ -51,6 +53,7 @@ import { ConfirmDialog } from '../components/confirm-dialog/confirm-dialog';
     UserService,
     EmitterService,
     DepartmentService,
+    FlavorService,
     fakeBackendProvider,
     MockBackend,
     BaseRequestOptions
