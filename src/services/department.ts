@@ -19,6 +19,10 @@ export class DepartmentService {
         return this.http.delete('/api/departments/' + id, this.jwt()).map((response: Response) => response.json());
     }
 
+    currentDepartment() {
+      return JSON.parse(localStorage.getItem('currentDepartment'));
+    }
+
     private jwt() {
       let headers = new Headers({'Content-Type': 'application/json'});
       return new RequestOptions({ headers: headers });

@@ -1,5 +1,6 @@
 <ul class="department-list">
   <li *ngFor="let department of departments"
+      (click)="setCurrentDepartment(department)"
       [routerLink]="['/department/' + department.id]">
     <span>{{department.name}}</span>
     <button class="delete-button"
@@ -7,5 +8,5 @@
   </li>
 </ul>
 <button class="add-button" (click)="addDepartment()">
-  +
+  New Department
 </button>

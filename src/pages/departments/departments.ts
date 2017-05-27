@@ -70,6 +70,10 @@ export class DepartmentsPage implements OnInit {
     });
   }
 
+  setCurrentDepartment(department) {
+    localStorage.setItem('currentDepartment', JSON.stringify(department));
+  }
+
   deleteDepartment(id: number) {
     this.departmentService.delete(id);
   }

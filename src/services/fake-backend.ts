@@ -1,6 +1,8 @@
 import { Http, BaseRequestOptions, Response, ResponseOptions, RequestMethod, XHRBackend, RequestOptions } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
+import { Flavor, UserFlavor } from '../models/index';
+
 export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOptions, realBackend: XHRBackend) {
     const defaultFlavors: any[] = [
         {
@@ -34,16 +36,17 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
     ];
 
     const defaultDepartments = [
-      {
-          id: 1,
-          name: 'IT Department'
-      }
+        {
+            id: 1,
+            name: 'IT Department'
+        }
     ]
 
     // array in local storage for registered users
     let users: any[] = JSON.parse(localStorage.getItem('users')) || [];
     let departments: any[] = JSON.parse(localStorage.getItem('departments')) || defaultDepartments;
-    let flavors: any[] = JSON.parse(localStorage.getItem('flavors')) || defaultFlavors;
+    let flavors: Flavor[] = JSON.parse(localStorage.getItem('flavors')) || defaultFlavors;
+    let userFlavors: UserFlavor[] = JSON.parse(localStorage.getItem('user-flavors')) || [];
 
     // configure fake backend
     backend.connections.subscribe((connection: MockConnection) => {
@@ -167,7 +170,7 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
                 return;
             }
 
-            // create new departments
+            // create new department
             if (connection.request.url.endsWith('/api/departments') && connection.request.method === RequestMethod.Post) {
                 let newDepartment = JSON.parse(connection.request.getBody());
 
@@ -215,6 +218,80 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
 
                 // respond 200 OK with user
                 connection.mockRespond(new Response(new ResponseOptions({ status: 200, body: matchedFlavors })));
+
+                return;
+            }
+
+            // create new flavor
+            if (connection.request.url.endsWith('/api/flavors') && connection.request.method === RequestMethod.Post) {
+                let newFlavor = JSON.parse(connection.request.getBody());
+
+                // validation
+                let duplicateFlavor = flavors.filter(flavor => { return flavor.name === newFlavor.name; }).length;
+                if (duplicateFlavor) {
+                    return connection.mockError(new Error('Flavor "' + newFlavor.name + '" is already created'));
+                }
+
+                // save new department
+                newFlavor.id = flavors.length + 1;
+                flavors.push(newFlavor);
+                localStorage.setItem('flavors', JSON.stringify(flavors));
+
+                // respond 200 OK
+                connection.mockRespond(new Response(new ResponseOptions({ status: 200, body: newFlavor })));
+
+                return;
+            }
+
+            // get user-flavor by userId and flavorId
+            if (connection.request.url.match(/\/api\/user-flavors\/\d+\/\d+$/) && connection.request.method === RequestMethod.Get) {
+                let urlParts = connection.request.url.split('/');
+                console.log(urlParts);
+                let userId = parseInt(urlParts[urlParts.length - 2]);
+                let flavorId = parseInt(urlParts[urlParts.length - 1]);
+                let matchedUserFlavor = userFlavors.filter(item => { return item.userId === userId && item.flavorId === flavorId; });
+
+                if (matchedUserFlavor) {
+                    // respond 200 OK with user
+                    connection.mockRespond(new Response(new ResponseOptions({ status: 200, body: matchedUserFlavor[0] })));
+                } else {
+                    connection.mockRespond(new Response(new ResponseOptions({ status: 401 })));
+                }
+
+
+                return;
+            }
+
+            // create/update a user-flavor
+            if (connection.request.url.endsWith('/api/user-flavors') && connection.request.method === RequestMethod.Post) {
+                let userFlavor = JSON.parse(connection.request.getBody());
+
+                let duplicated = userFlavors.filter(item => { return item.userId === userFlavor.userId && item.flavorId === userFlavor.flavorId; });
+                if (duplicated.length) {
+                    userFlavor.id = duplicated[0].id;
+                    for (let i = 0; i < userFlavors.length; i++) {
+                        let item = userFlavors[i];
+                        if (item.id === userFlavor.id) {
+                            userFlavors[i].rating = userFlavor.rating || 0;
+                            userFlavors[i].note = userFlavor.note || item.note;
+                            localStorage.setItem('user-flavors', JSON.stringify(userFlavors));
+                            break;
+                        }
+                    }
+                } else {
+                    userFlavor.id = userFlavors.length + 1;
+                    if (!userFlavor.note) {
+                        userFlavor.note = '';
+                    }
+                    if (!userFlavor.rating) {
+                        userFlavor.rating = 0;
+                    }
+                    userFlavors.push(userFlavor);
+                    localStorage.setItem('user-flavors', JSON.stringify(userFlavors));
+                }
+
+                // respond 200 OK
+                connection.mockRespond(new Response(new ResponseOptions({ status: 200 })));
 
                 return;
             }

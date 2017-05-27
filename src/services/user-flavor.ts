@@ -4,15 +4,15 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map'
 
 @Injectable()
-export class FlavorService {
+export class UserFlavorService {
     constructor(private http: Http) { }
 
-    getAll(id): Observable<any> {
-      return this.http.get(`/api/flavors/${id}`).map((response: Response) => response.json());
+    getById(userId, flavorId) {
+      return this.http.get(`/api/user-flavors/${userId}/${flavorId}`).map((response: Response) => response.json());
     }
 
-    create(flavor) {
-        return this.http.post('/api/flavors', flavor, this.jwt()).map((response: Response) => response.json());
+    createOrUpdate(userFlavor) {
+        return this.http.post('/api/user-flavors', userFlavor, this.jwt()).map((response: Response) => response.json());
     }
 
     delete(id: number) {

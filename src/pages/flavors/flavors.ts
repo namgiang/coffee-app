@@ -3,10 +3,10 @@ import { ActivatedRoute, Params, Router }   from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { MdDialog } from '@angular/material';
 
-import { FlavorService } from '../../services/index';
-// import { Flavor } from '../../models/index';
+import { FlavorService, DepartmentService } from '../../services/index';
+import { Flavor } from '../../models/index';
 
-import { NewDepartmentDialog } from '../../components/new-department-dialog/new-department-dialog';
+import { FlavorDialog } from '../../components/flavor-dialog/flavor-dialog';
 import { AlertComponent } from '../../components/alert/alert';
 
 @Component({
@@ -16,9 +16,9 @@ import { AlertComponent } from '../../components/alert/alert';
 })
 
 export class FlavorsPage implements OnInit {
-  flavors: any[] = [];
-  // newDepartmentClicked: boolean = false;
-  // message: {text: string, type: string};
+  flavors: Flavor[] = [];
+  departmentId: any;
+  sub: any;
 
   constructor(private router: Router,
               private flavorService: FlavorService,
@@ -26,29 +26,35 @@ export class FlavorsPage implements OnInit {
               private dialog: MdDialog) {}
 
   ngOnInit(): void {
-    this.route.params
-      .switchMap((params: Params) => this.flavorService.getAll(+params['id']))
+    this.sub = this.route.params
+      .subscribe((params: Params) => { this.departmentId = +params['id'] });
+
+      this.flavorService.getAll(this.departmentId)
       .subscribe(flavors => this.flavors = flavors);
-    // this.flavorService.getAll().subscribe(flavors => { this.flavors = flavors; });
+  }
+
+  ngOnDestroy() {
+
   }
 
   addFlavor() {
-    // let dialogRef = this.dialog.open(NewDepartmentDialog, {
-    //   hasBackdrop: true,
-    //   backdropClass: 'my-overlay'
-    // });
-    // dialogRef.afterClosed().subscribe(result => {
-    //   this.departmentService.create({name: result})
-    //         .subscribe(
-    //             data => {
-    //               this.message = { text: "New department '" + result + "' created!", type: 'success' };
-    //               this.openAlert(this.message);
-    //             },
-    //             error => {
-    //               this.message = { text: "Department '" + result + "' already exists!", type: 'error' };
-    //               this.openAlert(this.message);
-    //             });
-    // });
+    let dialogRef = this.dialog.open(FlavorDialog, {
+      hasBackdrop: true,
+      backdropClass: 'my-overlay'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.flavorService.create(result)
+            .subscribe(
+                data => {
+                  this.flavors.push(data);
+                  let message = { text: "New Flavor '" + result.name + "' created!", type: 'success' };
+                  this.openAlert(message);
+                },
+                error => {
+                  let message = { text: "Department '" + result.name + "' already exists!", type: 'error' };
+                  this.openAlert(message);
+                });
+    });
   }
 
   openAlert(message): void {

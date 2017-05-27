@@ -1,9 +1,10 @@
 <ul class="flavors-list">
   <li *ngFor="let flavor of flavors"
-      [routerLink]="['/']">
-    {{flavor.name}}
+      >
+    <span [routerLink]="['/']">{{flavor.name}}</span>
+    <star-rating [flavorId]="flavor.id"></star-rating>
   </li>
 </ul>
 <button class="add-button" (click)="addFlavor()">
-  +
+  New Flavor
 </button>

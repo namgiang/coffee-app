@@ -5,3 +5,4 @@ export * from './fake-backend';
 export * from './emitter';
 export * from './department';
 export * from './flavor';
+export * from './user-flavor';

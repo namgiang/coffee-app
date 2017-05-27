@@ -11,7 +11,7 @@ import { fakeBackendProvider } from '../services/index';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { BaseRequestOptions } from '@angular/http';
 
-import { AuthGuard, AuthenticationService, UserService, EmitterService, DepartmentService, FlavorService } from '../services/index';
+import { AuthGuard, AuthenticationService, UserService, EmitterService, DepartmentService, FlavorService, UserFlavorService } from '../services/index';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +22,8 @@ import { SignUpPage } from '../pages/sign-up/sign-up';
 import { AlertComponent } from '../components/alert/alert';
 import { NewDepartmentDialog } from '../components/new-department-dialog/new-department-dialog';
 import { ConfirmDialog } from '../components/confirm-dialog/confirm-dialog';
+import { FlavorDialog } from '../components/flavor-dialog/flavor-dialog';
+import { StarRating } from '../components/star-rating/star-rating';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { ConfirmDialog } from '../components/confirm-dialog/confirm-dialog';
     FlavorsPage,
     AlertComponent,
     NewDepartmentDialog,
-    ConfirmDialog
+    ConfirmDialog,
+    FlavorDialog,
+    StarRating
   ],
   imports: [
     BrowserModule,
@@ -45,7 +49,9 @@ import { ConfirmDialog } from '../components/confirm-dialog/confirm-dialog';
   entryComponents: [
     NewDepartmentDialog,
     AlertComponent,
-    ConfirmDialog
+    ConfirmDialog,
+    FlavorDialog,
+    StarRating
   ],
   providers: [
     AuthGuard,
@@ -54,6 +60,7 @@ import { ConfirmDialog } from '../components/confirm-dialog/confirm-dialog';
     EmitterService,
     DepartmentService,
     FlavorService,
+    UserFlavorService,
     fakeBackendProvider,
     MockBackend,
     BaseRequestOptions

@@ -1,0 +1,22 @@
+<h2 md-dialog-title>New flavor</h2>
+<div md-dialog-content>
+  <div>
+    <fieldset class="types">
+      <input type="radio" id="coffee" name="type" [(ngModel)]="flavor.type" value="coffee" />
+      <label>Coffee</label>
+      <input type="radio" id="tea" name="type" [(ngModel)]="flavor.type" value="tea" />
+      <label>Tea</label>
+    </fieldset>
+  </div>
+  <div class="text-input" >
+    <input #flavorName
+           [(ngModel)]="flavor.name"
+           placeholder="Flavor name" />
+  </div>
+</div>
+<div md-dialog-actions>
+  <button (click)="dialogRef.close(flavor)"
+          [disabled]="flavor.name === '' || flavor.type === ''">
+    Add
+  </button>
+</div>
