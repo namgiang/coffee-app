@@ -1,22 +1,28 @@
-<h2 md-dialog-title>New flavor</h2>
+<h2 md-dialog-title>{{ editedFlavor.id ? 'Edit Flavor' : 'New flavor' }}</h2>
 <div md-dialog-content>
   <div>
     <fieldset class="types">
-      <input type="radio" id="coffee" name="type" [(ngModel)]="flavor.type" value="coffee" />
+      <input type="radio" id="coffee" name="type" [(ngModel)]="type" value="coffee" />
       <label>Coffee</label>
-      <input type="radio" id="tea" name="type" [(ngModel)]="flavor.type" value="tea" />
+      <input type="radio" id="tea" name="type" [(ngModel)]="type" value="tea" />
       <label>Tea</label>
     </fieldset>
   </div>
   <div class="text-input" >
     <input #flavorName
-           [(ngModel)]="flavor.name"
+           [(ngModel)]="name"
            placeholder="Flavor name" />
+  </div>
+  <div>
+    <star-rating *ngIf="editedFlavor.id"
+                 [flavorId]="editedFlavor.id"
+                 [temp]="true"
+                 (ratingIsChanged)="setRating($event)"></star-rating>
   </div>
 </div>
 <div md-dialog-actions>
-  <button (click)="dialogRef.close(flavor)"
-          [disabled]="flavor.name === '' || flavor.type === ''">
-    Add
+  <button (click)="addOrUpdate()"
+          [disabled]="name === '' || type === ''">
+    OK
   </button>
 </div>

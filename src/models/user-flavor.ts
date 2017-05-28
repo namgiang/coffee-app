@@ -4,5 +4,5 @@ export class UserFlavor {
     flavorId: number;
     rating: number;
     note: string;
-    favourite: boolean;
+    hearted: boolean;
 }

@@ -1,10 +1,35 @@
-<ul class="flavors-list">
-  <li *ngFor="let flavor of flavors"
-      >
-    <span [routerLink]="['/']">{{flavor.name}}</span>
-    <star-rating [flavorId]="flavor.id"></star-rating>
-  </li>
-</ul>
-<button class="add-button" (click)="addFlavor()">
-  New Flavor
-</button>
+<div class="container">
+  <nav>
+        <a routerLink="/departments"
+           routerLinkActive="active">
+           Departments
+        </a>
+      </nav>
+  <div class="filter">
+    <div>
+      <fieldset class="types">
+        <input type="radio" id="type-coffee" name="typeFilter" [(ngModel)]="typeFilter" value="coffee" (ngModelChange)="filterType()" />
+        <label>Coffee</label>
+        <input type="radio" id="type-tea" name="typeFilter" [(ngModel)]="typeFilter" value="tea" (ngModelChange)="filterType()" />
+        <label>Tea</label>
+        <input type="radio" id="type-all" name="typeFilter" [(ngModel)]="typeFilter" value="all" (ngModelChange)="filterType()" />
+        <label>All</label>
+      </fieldset>
+    </div>
+    <div class="text-input" >
+      <input #searchBox (keyup)="search(searchBox.value)" />
+    </div>
+  </div>
+  <ul *ngIf="flavors" class="flavors-list">
+    <li *ngFor="let flavor of flavors">
+      <span (click)="addOrEditFlavor(flavor)">{{flavor.name}}</span>
+      <button class="hearty" [ngClass]="{'checked': flavor.hearted}" (click)="heart(flavor.id)" ></button>
+      <div><star-rating [flavorId]="flavor.id"></star-rating>
+      </div>
+    </li>
+  </ul>
+  <p *ngIf="flavors.length === 0" class="no-result">No results.</p>
+  <button class="add-button" (click)="addOrEditFlavor(null)">
+    New Flavor
+  </button>
+</div>

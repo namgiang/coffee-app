@@ -30,3 +30,14 @@ button {
     outline: none;
   }
 }
+
+
+@media only screen and (min-device-width: 300px) and (max-device-width: 1024px) {
+  input {
+    font-size: 4vw;
+  }
+
+  button {
+    font-size: 4vw;
+  }
+}

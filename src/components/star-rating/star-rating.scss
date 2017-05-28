@@ -2,7 +2,7 @@
 
 .rating {
   border: none;
-  float: left;
+  width: 23vw;
 }
 
 .rating > input { display: none; }
@@ -12,11 +12,6 @@
   font-family: FontAwesome;
   display: inline-block;
   content: "\f005";
-}
-
-.rating > .half:before {
-  content: "\f089";
-  position: absolute;
 }
 
 .rating > label {
@@ -38,5 +33,23 @@
 
 .star-checked + label:hover, /* hover current star when changing rating */
 .star-checked ~ label:hover,
-.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+.rating > label:hover ~ .star-checked ~ label, /* lighten current selection */
 .star-checked ~ label:hover ~ label { color: #FFED85;  }
+
+@media only screen and (min-device-width: 300px) and (max-device-width: 1024px) {
+  .rating {
+    width: 36vw;
+    margin: auto;
+
+    > label:before {
+      font-size: 4.5vw;
+    }
+  }
+}
+
+
+// iPad
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+
+
+}

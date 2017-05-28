@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MdDialog } from '@angular/material';
 
-import { UserService } from '../../services/index';
+import { UserService, AuthenticationService, EmitterService } from '../../services/index';
 import { AlertComponent } from '../../components/alert/alert';
 
 @Component({
   selector: 'sign-up-page',
   templateUrl: './sign-up.html',
-  styleUrls: ['./sign-up.scss'],
+  styleUrls: ['../login/login.scss'],
 })
 
 export class SignUpPage {
@@ -18,6 +18,8 @@ export class SignUpPage {
     constructor(
         private router: Router,
         private userService: UserService,
+        private authenticationService: AuthenticationService,
+        private emitterService: EmitterService,
         private dialog: MdDialog) { }
 
     register() {
@@ -25,9 +27,16 @@ export class SignUpPage {
         this.userService.create(this.model)
             .subscribe(
                 data => {
-                    let message = { text: "Registration successful!", type: 'success'};
-                    this.openAlert(message);
-                    this.router.navigate(['/login']);
+                  this.authenticationService.login(this.model.username, this.model.password)
+                    .subscribe(
+                        data => {
+                            this.emitterService.next('user:loggedIn');
+                            this.router.navigate(['/']);
+                        },
+                        error => {
+                            let message = { text: 'Incorrect username or password!', type: 'error' }
+                            this.openAlert(message);
+                    });
                 },
                 error => {
                     let message = { text: "Registration failed. Please try again!", type: 'error'};

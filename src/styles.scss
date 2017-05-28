@@ -28,3 +28,44 @@ body {
   position: absolute;
   top: 0;
 }
+
+.footer {
+  position: fixed;
+  bottom: 2vh;
+}
+
+.container {
+  width: 50vw;
+}
+
+.form-container {
+  width: 30vw;
+}
+
+button.add-button {
+  background-color: #4487db;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 1.5vw;
+  padding: 2.5vh 2vw;
+  width: 50vw;
+}
+
+@media only screen and (min-device-width: 300px) and (max-device-width: 1024px) {
+  .form-container,
+  .container {
+    width: 90vw;
+  }
+
+  .add-button {
+    font-size: 4vw !important;
+    width: 90vw !important;
+  }
+
+  .cdk-overlay-pane {
+    top: 20vh;
+    left: 10vw;
+    width: 80vw;
+  }
+}

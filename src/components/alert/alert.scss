@@ -1,4 +1,5 @@
 @import '../../styles/variables.scss';
+@import '../../styles/shared.scss';
 
 .alert {
   text-align: center;
@@ -10,4 +11,16 @@
 
 .alert-danger {
   color: $bitter-sweet;
+}
+
+button {
+  margin: auto;
+  padding: 1vh 3vw;
+}
+
+
+@media only screen and (min-device-width: 300px) and (max-device-width: 1024px) {
+  .alert {
+    font-size: 4vw;
+  }
 }

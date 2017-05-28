@@ -1,13 +1,9 @@
 <div class="app-container">
   <header class="my-header">
-    <nav class="header-left">
-      <a routerLink="/departments"
-         routerLinkActive="active">
-         Departments
-      </a>
-    </nav>
+    <h2 class="left">Coffee App</h2>
 
-    <div class="header-right">
+
+    <div class="right">
       <h3 *ngIf="currentUser" >{{currentUser.username}}</h3>
       <p *ngIf="!currentUser" [routerLink]="['/login']" class="my-button">Login</p>
       <p *ngIf="currentUser" (click)="logOut()" class="my-button">Logout</p>

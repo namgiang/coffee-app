@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input } from '@angular/core';
+import { Component, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 
 import { UserService, UserFlavorService } from '../../services/index';
   
@@ -10,14 +10,21 @@ import { UserService, UserFlavorService } from '../../services/index';
  
 export class StarRating {
   @Input() flavorId: number;
-  star5Checked: boolean = false;
+  @Input() temp: boolean; // if the star-rating is a component of the flavor-dialog
   rating: number = 0;
+  idName: string;
+  @Output() ratingIsChanged: EventEmitter<any> = new EventEmitter();
 
   constructor(private userService: UserService,
               private userFlavorService: UserFlavorService) {}
 
   ngOnInit() {
     this.setRating();
+    if (this.temp) {
+      this.idName = 'Temp';
+    } else {
+      this.idName = '' + this.flavorId;
+    }
   }
 
   setRating(): void {
@@ -34,8 +41,13 @@ export class StarRating {
       flavorId: this.flavorId,
       rating: index
     }
-    this.userFlavorService.createOrUpdate(userFlavor);
-    this.setRating();
+    if (!this.temp) {
+      this.userFlavorService.createOrUpdate(userFlavor);
+      this.setRating();
+    } else {
+      this.rating = index;
+      this.ratingIsChanged.emit({ rating: index });
+    }
   }
 
 }

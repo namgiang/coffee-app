@@ -3,4 +3,5 @@ export class Flavor {
     name: string;
     type: string;
     departmentId: number;
+    hearted?: boolean;
 }

@@ -21,4 +21,16 @@
     margin-bottom: 1vh;
   }
 
+  star-rating {
+    margin: auto;
+  }
+
+}
+
+@media only screen and (min-device-width: 300px) and (max-device-width: 1024px) {
+  h2,
+  .types input,
+  .types label {
+    font-size: 4.5vw !important;
+  }
 }

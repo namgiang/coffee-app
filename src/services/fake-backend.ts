@@ -211,11 +211,19 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
             }
 
             // get flavors by id
-            if (connection.request.url.match(/\/api\/flavors\/\d+$/) && connection.request.method === RequestMethod.Get) {
+            if (connection.request.url.match(/\/api\/flavors\/\d+\/\d+$/) && connection.request.method === RequestMethod.Get) {
                 let urlParts = connection.request.url.split('/');
-                let id = parseInt(urlParts[urlParts.length - 1]);
-                let matchedFlavors = flavors.filter(flavor => { return flavor.departmentId === id; });
-
+                let departmentId = parseInt(urlParts[urlParts.length - 2]);
+                let userId = parseInt(urlParts[urlParts.length - 1]);
+                let matchedFlavors = flavors.filter(flavor => { return flavor.departmentId === departmentId; }).map(flavor => {
+                    let userFlavor = userFlavors.filter(item => item.userId === userId && item.flavorId === flavor.id);
+                    if (userFlavor.length) {
+                        flavor.hearted = userFlavor[0].hearted;
+                    } else {
+                        flavor.hearted = false;
+                    }
+                    return flavor;
+                });
                 // respond 200 OK with user
                 connection.mockRespond(new Response(new ResponseOptions({ status: 200, body: matchedFlavors })));
 
@@ -243,10 +251,70 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
                 return;
             }
 
+            // update a flavor
+            if (connection.request.url.match(/\/api\/flavors\/\d+$/) && connection.request.method === RequestMethod.Post) {
+                let flavor = JSON.parse(connection.request.getBody());
+
+                let matchedFlavor = flavors.filter(item => { return item.id === flavor.id; });
+                if (matchedFlavor.length) {
+                    for (let i = 0; i < flavors.length; i++) {
+                        if (flavors[i].id === flavor.id) {
+                            flavors[i] = flavor;
+                            localStorage.setItem('flavors', JSON.stringify(flavors));
+                            break;
+                        }
+                    }
+                    // respond 200 OK
+                    connection.mockRespond(new Response(new ResponseOptions({ status: 200 })));
+                } else {
+                    connection.mockRespond(new Response(new ResponseOptions({ status: 401 })));
+                }
+                return;
+            }
+
+            // search a flavor
+            if (connection.request.url.match(/\/api\/flavors\/\d+\/\d+\/\?term=.*&type=\w+$/) && connection.request.method === RequestMethod.Get) {
+                let urlParts = connection.request.url.split('/');
+                let id = parseInt(urlParts[urlParts.length - 3]);
+                let userId = parseInt(urlParts[urlParts.length - 2]);
+                let term = urlParts[urlParts.length - 1];
+                term = term.split('?term=')[1].toLowerCase();
+                let splitted = term.split('&type=');
+                term = splitted[0];
+                let type = splitted[1];
+                let matchedFlavors;
+                if (type === 'all') {
+                    matchedFlavors = flavors.filter(flavor => { return flavor.departmentId === id && flavor.name.toLowerCase().includes(term); }).map(flavor => {
+                        let userFlavor = userFlavors.filter(item => item.userId === userId && item.flavorId === flavor.id);
+                        if (userFlavor.length) {
+                            flavor.hearted = userFlavor[0].hearted;
+                        } else {
+                            flavor.hearted = false;
+                        }
+                        return flavor;
+                    });;
+                } else {
+                    matchedFlavors = flavors.filter(flavor => { return flavor.departmentId === id && flavor.name.toLowerCase().includes(term) && flavor.type === type; }).map(flavor => {
+                        let userFlavor = userFlavors.filter(item => item.userId === userId && item.flavorId === flavor.id);
+                        if (userFlavor.length) {
+                            flavor.hearted = userFlavor[0].hearted;
+                        } else {
+                            flavor.hearted = false;
+                        }
+                        return flavor;
+                    });;
+                }
+
+
+                // respond 200 OK with user
+                connection.mockRespond(new Response(new ResponseOptions({ status: 200, body: matchedFlavors })));
+
+                return;
+            }
+
             // get user-flavor by userId and flavorId
             if (connection.request.url.match(/\/api\/user-flavors\/\d+\/\d+$/) && connection.request.method === RequestMethod.Get) {
                 let urlParts = connection.request.url.split('/');
-                console.log(urlParts);
                 let userId = parseInt(urlParts[urlParts.length - 2]);
                 let flavorId = parseInt(urlParts[urlParts.length - 1]);
                 let matchedUserFlavor = userFlavors.filter(item => { return item.userId === userId && item.flavorId === flavorId; });
@@ -273,15 +341,15 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
                         let item = userFlavors[i];
                         if (item.id === userFlavor.id) {
                             userFlavors[i].rating = userFlavor.rating || 0;
-                            userFlavors[i].note = userFlavor.note || item.note;
+                            userFlavors[i].hearted = userFlavor.hearted || false;
                             localStorage.setItem('user-flavors', JSON.stringify(userFlavors));
                             break;
                         }
                     }
                 } else {
                     userFlavor.id = userFlavors.length + 1;
-                    if (!userFlavor.note) {
-                        userFlavor.note = '';
+                    if (!userFlavor.hearted) {
+                        userFlavor.hearted = false;
                     }
                     if (!userFlavor.rating) {
                         userFlavor.rating = 0;

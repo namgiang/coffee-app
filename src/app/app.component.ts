@@ -20,7 +20,6 @@ export class AppComponent {
               private emitterService: EmitterService,
               private router: Router) {
     this.subscription = this.emitterService.subscribe(msg => {
-      console.log(msg);
       if (msg === 'user:loggedIn') {
         this.setCurrentUser();
       }
@@ -30,20 +29,10 @@ export class AppComponent {
 
   ngOnInit() {
     this.setCurrentUser();
-    // this.loadAllUsers();
   }
 
   ngOnDestroy() {
-    console.log("{3}");
     this.subscription.unsubscribe();
-  }
-
-  deleteUser(id: number) {
-    this.userService.delete(id).subscribe(() => { this.loadAllUsers() });
-  }
-
-  private loadAllUsers() {
-    this.userService.getAll().subscribe(users => { this.users = users; });
   }
 
   setCurrentUser() {

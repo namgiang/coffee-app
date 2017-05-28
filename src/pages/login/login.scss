@@ -1,0 +1,30 @@
+@import '../../styles/_shared.scss';
+@import '../../styles/_variables.scss';
+
+.form-group {
+  margin-bottom: 1vh;
+  display: flex;
+  align-items: center;
+
+  > * {
+    flex: 1;
+  }
+}
+
+.help-block {
+  color: $bitter-sweet;
+}
+
+.form-group-button {
+  margin-top: 3vh;
+  text-align: center;
+
+  button {
+    padding: 2vh 3vw;
+    width: 100%;
+  }
+
+  > div {
+    margin-top: 2vh;
+  }
+}

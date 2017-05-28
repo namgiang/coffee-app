@@ -7,12 +7,20 @@ import 'rxjs/add/operator/map'
 export class FlavorService {
     constructor(private http: Http) { }
 
-    getAll(id): Observable<any> {
-      return this.http.get(`/api/flavors/${id}`).map((response: Response) => response.json());
+    getAll(departmentId, userId): Observable<any> {
+      return this.http.get(`/api/flavors/${departmentId}/${userId}`).map((response: Response) => response.json());
+    }
+
+    search(term, type, departmentId, userId): Observable<any> {
+      return this.http.get(`/api/flavors/${departmentId}/${userId}/?term=${term}&type=${type}`).map((response: Response) => response.json());
     }
 
     create(flavor) {
         return this.http.post('/api/flavors', flavor, this.jwt()).map((response: Response) => response.json());
+    }
+
+    update(flavor) {
+        return this.http.post(`/api/flavors/${flavor.id}`, flavor, this.jwt()).map((response: Response) => response.json());
     }
 
     delete(id: number) {

@@ -2,3 +2,6 @@
      [ngClass]="{ 'alert': data, 'alert-success': data.type === 'success', 'alert-danger': data.type === 'error' }">
   {{ data.text }}
 </div>
+<div md-dialog-actions class="buttons">
+  <button class="ok-button" (click)="dialogRef.close('')">OK</button>
+</div>

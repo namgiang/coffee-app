@@ -1,9 +1,19 @@
 @import '../../styles/_variables.scss';
+@import '../../styles/_shared.scss';
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+nav {
+  margin-bottom: 2vh;
+
+  a {
+    text-decoration: none;
+    color: gray;
+  }
+}
 
 .flavors-list {
   list-style-type: none;
   padding: 0;
-  width: 30vw;
 
   li {
     background-color: white;
@@ -17,19 +27,120 @@
     justify-content: space-between;
     align-items: center;
 
+    &:hover {
+      .hearty {
+        visibility: visible;
+      }
+    }
+
     span {
       cursor: pointer;
+      flex: 2;
+      overflow: hidden;
+    }
+
+    .hearty {
+      background-color: white;
+      visibility: hidden;
+
+      &:before {
+        color: $alto;
+        flex: 1;
+        font-family: FontAwesome;
+        font-size: 1.5vw;
+        display: inline-block;
+        content: "\f004";
+      }
+
+      &.checked {
+        visibility: visible;
+      }
+
+      &.checked:before {
+        color: $bitter-sweet;
+      }
+    }
+
+    > div {
+      flex: 2;
     }
   }
 }
 
-button.add-button {
-  background-color: #4487db;
-  border: none;
+.filter {
+  border: 1px solid $alto;
   border-radius: 5px;
-  color: white;
-  cursor: pointer;
+  text-align: center;
+  padding: 1vh 0;
   font-size: 1.5vw;
-  padding: 1vh 2vw;
-  width: 30vw;
+
+
+  .types {
+    border: none;
+  }
+
+  .text-input {
+    margin-bottom: 1vh;
+    input {
+      background-image: url('../../assets/img/search.svg');
+      background-repeat: no-repeat;
+      border: 1px solid $alto;
+      color: black;
+      text-indent: 2vw;
+      font-size: 1.5vw;
+    }
+  }
 }
+
+.no-result {
+  text-align: center;
+}
+
+@media only screen and (min-device-width: 300px) and (max-device-width: 1024px) {
+  li {
+    font-size: 4vw !important;
+    justify-content: center !important;
+
+    span {
+      flex: 4 !important;
+      width: 30vw;
+    }
+
+    > div {
+      flex: 3 !important;
+    }
+
+    .hearty {
+      visibility: visible !important;
+      &:before {
+        font-size: 4vw !important;
+      }
+    }
+  }
+
+  .filter {
+    font-size: 4vw;
+
+    input {
+      font-size: 4vw !important;
+      padding: 1vh 10vw;
+    }
+  }
+
+  nav {
+    a {
+      font-size: 4vw !important;
+    }
+  }
+
+}
+
+
+// iPad
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  .no-result {
+    font-size: 4vw !important;
+  }
+
+}
+

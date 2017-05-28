@@ -8,11 +8,15 @@
   display: flex;
   padding: 1vh 5vw;
 
-  .header-left {
-    flex: 9;
+  .left {
+    flex: 2;
   }
 
-  .header-right {
+  .center {
+    flex: 6;
+  }
+
+  .right {
     align-items: center;
     flex: 1;
     justify-content: space-between;
@@ -35,4 +39,20 @@
 
 .page-container {
   padding: 2vh 5vw;
+}
+
+@media only screen and (max-device-width: 767px) {
+  .my-header {
+    .left {
+      flex: 4;
+    }
+  }
+
+}
+
+
+// iPad
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+
+
 }
