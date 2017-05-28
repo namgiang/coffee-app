@@ -38,18 +38,11 @@
 
 @media only screen and (min-device-width: 300px) and (max-device-width: 1024px) {
   .rating {
-    width: 36vw;
+    width: 38vw;
     margin: auto;
 
     > label:before {
       font-size: 4.5vw;
     }
   }
-}
-
-
-// iPad
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-
-
 }
