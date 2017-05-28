@@ -1,8 +1,6 @@
 <div class="app-container">
   <header class="my-header">
     <h2 class="left">Coffee App</h2>
-
-
     <div class="right">
       <h3 *ngIf="currentUser" >{{currentUser.username}}</h3>
       <p *ngIf="!currentUser" [routerLink]="['/login']" class="my-button">Login</p>
